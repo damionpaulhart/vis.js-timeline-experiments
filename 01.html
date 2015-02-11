@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Timeline | Basic demo</title>
+
+  <style type="text/css">
+    body, html {
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="vis/dist/vis.js"></script>
+  <link href="vis/dist/vis.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="visualization"></div>
+
+<script type="text/javascript">
+  // DOM element where the Timeline will be attached
+  var container = document.getElementById('visualization');
+
+  // Create a DataSet (allows two way data-binding)
+  var items = new vis.DataSet([
+    {id: 1, content: 'first practice', start: '1997-09'},
+    {id: 2, content: 'Regrets perform Barristers', start: '1997-12'},
+    {id: 3, content: 'First show as The Moves', start: '1998-01-01'},
+    {id: 4, content: 'Josh practice', start: '1999-06'},
+    {id: 5, content: 'Moves in Frazer', start: '2000-07'},
+    {id: 6, content: 'Last show', start: '2000-10'}
+  ]);
+
+  // Configuration for the Timeline
+  var options = {editable:true};
+
+  // Create a Timeline
+  var timeline = new vis.Timeline(container, items, options);
+</script>
+</body>
+</html>
