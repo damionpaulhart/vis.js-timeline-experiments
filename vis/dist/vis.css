@@ -229,7 +229,7 @@
   position: relative;
   display: inline-block;
   max-width: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .vis.timeline .item.background .content {

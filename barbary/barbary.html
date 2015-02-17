@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
   <title>Timeline | Data serialization</title>
-
+  <link href="../vis/dist/vis.css" rel="stylesheet" type="text/css" />
   <style>
     body, html {
       font-family: arial, sans-serif;
@@ -21,37 +23,49 @@
     .buttons input {
       padding: 10px;
     }
+	
   </style>
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-  <script src="../../vis/dist/vis.js"></script>
-  
-  <link href="../../vis/dist/vis.css" rel="stylesheet" type="text/css" />
+
+  <script src="../vis/dist/vis.js"></script>
+
 </head>
 <body>
 
 <h1>Serialization and deserialization</h1>
-<ol>
-  <li>  when birthday field updated
-    <ol>
-      <li>resize window</li>
-      <li>add item </li>
-    </ol>
-  </li>
-</ol>
-<p>
-  <label for="birthday">Your Birthday</label>
-  <input type="text" name="birthday" id="birthday">
-</p>
+
+<p>This example shows how to serialize and deserialize JSON data, and load this in the Timeline via a DataSet. Serialization and deserialization is needed when loading or saving data from a server.</p>
+
+<textarea id="data">
+[
+  {"id": 1, "content": "item 1<br>start", "start": "2014-01-23"},
+  {"id": 2, "content": "item 2", "start": "2014-01-18"},
+  {"id": 3, "content": "item 3", "start": "2014-01-21"},
+  {"id": 4, "content": "item 4", "start": "2014-01-19", "end": "2014-01-24"},
+  {"id": 5, "content": "item 5", "start": "2014-01-28", "type": "point"},
+  {"id": 6, "content": "item 6", "start": "2014-01-26"}
+]
+</textarea>
+
 <div class="buttons">
-  <input type="button" id="load" value="&darr; Load" title="Load data into the Timeline">
-  <input type="button" id="save" value="&uarr; Save" title="Save data from the Timeline">
+  <input type="button" id="load" value="&darr; Load" title="Load data from textarea into the Timeline">
+  <input type="button" id="loadTA" value="Load Text Area" title="Load data from textarea into the Timeline">
+  <input type="button" id="save" value="&uarr; Save" title="Save data from the Timeline into the textarea">
 </div>
 
 <div id="visualization"></div>
 
 <script>
+  var txtData = document.getElementById('data');
   var btnLoad = document.getElementById('load');
+  var btnLoadTextArea = document.getElementById('loadTA');
   var btnSave = document.getElementById('save');
+  
+  // jQuery
+  // make sure JSON is not cached
+  $.ajaxSetup({ cache:false });
+
+
 
   // Create an empty DataSet.
   // This DataSet is used for two way data binding with the Timeline.
@@ -60,11 +74,11 @@
   // create a timeline
   var container = document.getElementById('visualization');
   var options = {
-	  maxHeight: '300px',
+	  selectable: true,
     editable: true,
-
+maxHeight: '200px',
     onUpdate: function (item, callback) {
-      item.content = prompt('text:', item.content);
+      item.content = prompt('Edit items text:', item.content);
       if (item.content != null) {
         callback(item); // send back adjusted item
       }
@@ -81,7 +95,14 @@
 	//var timelinedata;
 	//$.getJSON('data.js', function(data) {  alert(data[0].content);});
 	$.getJSON('data.js', handleData);
-    
+  }
+  function loadDataTextArea () {
+    // get and deserialize the data
+    var data = JSON.parse(txtData.value);
+	handleData(data);
+	//var timelinedata;
+	//$.getJSON('data.js', function(data) {  alert(data[0].content);});
+	//$.getJSON('data.js', handleData);
   }
   
 
@@ -100,11 +121,12 @@ function handleData(data)
     items.add(data);
 
     // adjust the timeline window such that we see the loaded data
-    //timeline.fit();
+    timeline.fit();
 }
   
   
   btnLoad.onclick = loadData;
+  btnLoadTextArea.onclick = loadDataTextArea;
 
   function saveData() {
     // get the data from the DataSet
@@ -132,12 +154,12 @@ function handleData(data)
 	//alert(JSON.stringify(data, null, 2));
 
     // serialize the data and put it in the textarea
-    //txtData.value = JSON.stringify(data, null, 2);
+    txtData.value = JSON.stringify(data, null, 2);
 	//var dama = "test=5&action=test";
 	var dama = JSON.stringify(data, null, 2);
 	var someJSON = { "apiKey": "23462", "method": "example", "ip": "208.74.35.5" };
 	//dph
-	// jQuery ajax write to server
+	// jQuery ajax attempt to write to server
 	$.ajax({
             type: "POST",
             url: "write-to-file.php",
@@ -156,27 +178,7 @@ function handleData(data)
   // load the initial data
   loadData();
   
-  // Damion's app code
-  // When the birthday is updated
-  $('#birthday').on('change', function() {
-	  //alert("success");
-	  var t = $('#birthday').val();
-	  //alert(t);
-    // vis.js code to change window to entered birthday
-	//document.getElementById('window1').onclick = function() {
-    timeline.setWindow(t, null);
-	 try {
-          items.add({
-            id: vis.util.randomUUID(),
-            content: "Born",
-			start: $('#birthday').val()
-          });
-        }
-        catch (err) {
-          alert(err);
-        }
-	
-  });
+
 </script>
 </body>
 </html>
