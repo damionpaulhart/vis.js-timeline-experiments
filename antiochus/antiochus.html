@@ -62,9 +62,18 @@
 
 
 
-  // Create an empty DataSet.
+  // Create an empty DataSet for items.
   // This DataSet is used for two way data binding with the Timeline.
   var items = new vis.DataSet();
+  
+  // Create an empty DataSet for groups
+  // The below is hard-coded and creates an auto-id for the groupNames
+  // create a data set with groups
+  var groupNames = ['none', 'Seleucid', 'Jewish', 'Nabateans'];
+  var groups = new vis.DataSet();
+  for (var g = 0; g < groupNames.length; g++) {
+    groups.add({id: g, content: groupNames[g]});
+  }
 
   // create a timeline
   var container = document.getElementById('visualization');
@@ -83,7 +92,7 @@
       }
     }
   };
-  var timeline = new vis.Timeline(container, items, options);
+  var timeline = new vis.Timeline(container, items, groups, options);
 
   function loadData () {
     // get and deserialize the data
@@ -116,7 +125,8 @@ function handleData(data)
     // Existing items will then be updated, and new items will be added.
     items.clear();
     items.add(data);
-
+	//timeline.setGroups(groups);
+	
 
     // adjust the timeline window such that we see the loaded data
     timeline.fit();
