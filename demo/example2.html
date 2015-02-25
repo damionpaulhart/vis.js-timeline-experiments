@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
+  <title>Example 2</title>
+  <link href="../vis/dist/vis.css" rel="stylesheet" type="text/css" />
+  <style>
+    body, html {
+      font-family: arial, sans-serif;
+      font-size: 11pt;
+    }
+
+    textarea {
+      width: 800px;
+      height: 200px;
+    }
+
+    .buttons {
+      margin: 20px 0;
+    }
+
+    .buttons input {
+      padding: 10px;
+    }
+	
+  </style>
+	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+  <script src="../vis/dist/vis.js"></script>
+
+</head>
+<body>
+
+<h1>dhart Timeline : Example 2</h1>
+<h2><a href="timeline.html">Return to mainpage</a></h2>
+<p>&nbsp;</p>
+<div id="visualization"></div>
+
+
+
+
+
+
+
+<script>
+
+  
+  // jQuery
+  // make sure JSON is not cached
+  $.ajaxSetup({ cache:false });
+
+
+
+  // Create an empty DataSet.
+  // This DataSet is used for two way data binding with the Timeline.
+  var items = new vis.DataSet();
+
+  // create a timeline
+  var container = document.getElementById('visualization');
+  var options = {
+	  selectable: true,
+    //editable: true,
+	//type: 'point',
+	align: 'left',
+	orientation: 'top',
+	//maxHeight: '200px',
+	//stack: 'false',
+    onUpdate: function (item, callback) {
+      item.content = prompt('Edit items text:', item.content);
+      if (item.content != null) {
+        callback(item); // send back adjusted item
+      }
+      else {
+        callback(null); // cancel updating the item
+      }
+    }
+  };
+  var timeline = new vis.Timeline(container, items, options);
+
+  function loadData () {
+    // get and deserialize the data
+    //var data = JSON.parse(txtData.value);
+	//var timelinedata;
+	//$.getJSON('data.js', function(data) {  alert(data[0].content);});
+	$.getJSON('getDBasJSON.php', handleData);
+  }
+  function loadDataTextArea () {
+    // get and deserialize the data
+    var data = JSON.parse(txtData.value);
+	handleData(data);
+	//var timelinedata;
+	//$.getJSON('data.js', function(data) {  alert(data[0].content);});
+	//$.getJSON('data.js', handleData);
+  }
+  
+
+function handleData(data)
+{
+		//alert(data[0].content);
+ // update the data in the DataSet
+    //
+    // Note: when retrieving updated data from a server instead of a complete
+    // new set of data, one can simply update the existing data like:
+    //
+    //   items.update(data);
+    //
+    // Existing items will then be updated, and new items will be added.
+    items.clear();
+    items.add(data);
+
+    // adjust the timeline window such that we see the loaded data
+    timeline.fit();
+	//txtData.value = JSON.stringify(data, null, 2);
+}
+  
+  
+ // btnLoad.onclick = loadData;
+  //btnLoadTextArea.onclick = loadDataTextArea;
+
+  function saveData() {
+    // get the data from the DataSet
+	
+    // Note that we specify the output type of the fields start and end
+    // as ISODate, which is safely serializable. Other serializable types
+    // are Number (unix timestamp) or ASPDate.
+    //
+    // Alternatively, it is possible to configure the DataSet to convert
+    // the output automatically to ISODates like:
+    //
+    //   var options = {
+    //     type: {start: 'ISODate', end: 'ISODate'}
+    //   };
+    //   var items = new vis.DataSet(options);
+    //   // now items.get() will automatically convert start and end to ISO dates.
+    //
+    var data = items.get({
+      type: {
+        start: 'ISODate',
+        end: 'ISODate'
+      }
+    });
+	
+	//alert(JSON.stringify(data, null, 2));
+
+    // serialize the data and put it in the textarea
+    txtData.value = JSON.stringify(data, null, 2);
+	//var dama = "test=5&action=test";
+	var dama = JSON.stringify(data, null, 2);
+	var someJSON = { "apiKey": "23462", "method": "example", "ip": "208.74.35.5" };
+	//dph
+	// jQuery ajax attempt to write to server
+	$.ajax({
+            type: "POST",
+            url: "write-to-file.php",
+            data: dama,
+        dataType: "json",
+            success: function(result) {
+                alert("success");
+				//$('#notification').append(result)
+                //.fadeIn(1500, function() {
+				//});
+			}
+        });
+  }
+  //btnSave.onclick = saveData;
+
+  // load the initial data
+  loadData();
+  
+
+</script>
+</body>
+</html>
