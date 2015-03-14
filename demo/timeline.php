@@ -1,9 +1,107 @@
-<!DOCTYPE HTML>
+<?php // WordPress
+	//require_once(dirname(__FILE__) . '/../../wordpress/wp-blog-header.php');
+	// get_header();
+?>
+<?php
+	$TITLE = "Timeline";
+	$active = "nav_menu_apps";
+	//require_once(dirname(__FILE__) . '/../../header.php');
+?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="http://www.facebook.com/2008/fbml">
-<head>
-<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <head>
+    <meta charset="utf-8">
+    <title>
+	<?php $TITLE ?>
+	</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personal website of Damion with portfolio, blog, apps, music, and contact information.">
+    <meta name="author" content="Damion Paul Hart">
+	<!-- Facebook Open Graph Meta Tags -->
+<meta property="og:title" content="Damion Paul Hart" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://dhart.co" />
+<meta property="og:image" content="http://dhart.co/images/diamondheart_02.png" />
+<meta property="og:site_name" content="Damion Paul Hart" />
+<meta property="og:description" content="Personal website of Damion with portfolio, blog, apps, music, and contact information." />
+
+    <!-- Le styles -->
+    <link href="<?php __DIR__; ?> /content/assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="<?php __DIR__; ?> /content/assets/css/bootstrap-responsive.css" rel="stylesheet">
+	<?php if ($TITLE=="MEDIA"): ?>
+    <link href="<?php __DIR__; ?> /content/assets/css/docs.css" rel="stylesheet">
+	<?php endif; ?>
+    <style>
+html, body {
+	height: 100%;
+}
+.wrapper > .container-fluid {
+	padding-top: 60px;
+}
+.wrapper {
+	min-height: 100%;
+	height: auto !important; /* ie7 fix */
+	height: 100%;
+	margin: 0 auto -40px;
+}
+footer p {
+	line-height: 40px;
+	margin: 0;
+}
+footer {
+	background-color: #2C2C2C;
+	color:#eee;
+	right:0;
+	left:0;
+	text-align: center;
+}
+
+/* media queries to support the bootstrap responsive stylesheet */
+
+@media (max-width: 979px) {
+ .wrapper > .container-fluid {
+ padding-top:0;
+}
+ .wrapper {
+ height:auto;
+ margin:auto;
+ min-height: 0;
+}
+footer p {
+	line-height: 40px;
+	margin: 0;
+}
+footer {
+	background-color: #2C2C2C;
+	color:#eee;
+	right:0;
+	left:0;
+	width:100%;
+	text-align: center;
+}
+​/*
+// makes all borders part of the box
+span4 {
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+*/
+</style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="<?php __DIR__; ?>/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="content/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="content/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="content/assets/ico/apple-touch-icon-57-precomposed.png">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
     <meta name="description" content="Dynamic Timeline of human history">
     <meta name="author" content="Damion Paul Hart">
@@ -15,7 +113,7 @@
 <meta property="og:site_name" content="dhart.co" />
 <meta property="og:description" content="Dynamic Timeline of human history" />
 
-  <title>dhart Timeline</title>
+  <title>Timeline</title>
   <link href="../vis/dist/vis.css" rel="stylesheet" type="text/css" />
   <style>
     body, html {
@@ -40,11 +138,66 @@
 	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 
   <script src="../vis/dist/vis.js"></script>
+    </head>
+    
+    	<body data-spy="scroll" data-target=".subnav" data-offset="100">
+		<!--[if lt IE 7]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+        <![endif]-->
+		<?php include_once("analyticstracking.php") ?>
 
-</head>
-<body>
+	
+<!-- data-spy used in media.php -->
+<div class="navbar navbar-fixed-top">
+					<div class="navbar-inner">
+								<div class="container"> <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> 
+								<a class="brand" style="vertical-align:middle;" href="/index.php">
+								<img style="height:20px; margin-right:20px; vertical-align:bottom;" src="/images/diamondheart-forum.gif" />DAMION</a>
+													<div class="nav-collapse">
+																<ul class="nav">
+																					<li id="nav_menu_home"><a id="menu_home" href="/index.php">Home</a></li>
+																					<li id="nav_menu_blog"><a id="menu_blog" href="<?php __DIR__; ?>/wordpress/">Blog</a></li>
+																					<li class="dropdown" id="nav_menu_apps"> <a class="dropdown-toggle" data-toggle="dropdown" href="menu_apps"> Apps <b class="caret"></b> </a>
+																								<ul class="dropdown-menu">
+                                                                                                					<li><a href="<?php __DIR__; ?>/games/">All Apps & Games</a></li>
+                                                                                                					<li class="divider"></li>
+																													<li><a href="<?php __DIR__; ?>/index_timeline.php">Chronologia</a></li>
+																													<li><a href="<?php __DIR__; ?>/content/spaceshark.php">Space Shark : The Game</a></li>
+																													<li><a href="<?php __DIR__; ?>/index_manvshippy.php">Man vs Hippy</a></li>
+                                                                                                                    <li><a href="<?php __DIR__; ?>/games/jcracing/index.php">Virtual JC Racing</a></li>
+																													<li class="divider"></li>
+																													<li class="nav-header">The Lab</li>
+																													<li><a href="<?php __DIR__; ?>/content/lab/control/index.html">Touch (only) Game Joystick</a></li>
+																								</ul>
+																				    </li>
+																	
+																				    <li class="dropdown" id="menu2"> <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2"> Media <b class="caret"></b> </a>
+																								<ul class="dropdown-menu">
+																										<li><a href="<?php __DIR__; ?>/content/media.php">Music & Video</a></li>
+																								</ul>
+																					</li>
+                                                                                    <!--<li class="dropdown" id="menu3"> <a class="dropdown-toggle" data-toggle="dropdown" href="#menu3"> Members <b class="caret"></b> </a>
+																								<ul class="dropdown-menu">
+																										<li><a href="<?php __DIR__; ?>/videodb/">videoDB</a></li>
+                                                                                                        <li><a href="<?php __DIR__; ?>/photos/">photos</a></li>
+																								</ul>
+																					</li>-->
+																					<li id="nav_menu_resume"><a id="menu_resume" target="_new" href="http://damionpaulhart.github.com/">Resume</a></li>
+																</ul>
+												</div>
+													<!-- /.nav-collapse --> 
+									</div>
+								<!-- /container --> 
+				</div>
+					<!-- /navbar-inner --> 
+	</div>
+<!-- /navbar -->
+<div class="wrapper clearfix">
+    <div class="container-fluid">
+    
 
-<h1>dhart Timeline</h1>
+
+<h1>Human History Timeline</h1>
 <p>Here is an image, you can interact with the timeline further down... </p>
 <p><img src="timeline.jpg" width="400" height="93" alt="timeline" style="border:solid 1px black;">
 </p>
@@ -85,9 +238,10 @@
 <p><strong>That is all for now.</strong> You can close this tab/window. <strong>OR</strong></p>
 <p>View my <a href="http://dhart.co/index_timeline.php">original version of the timeline</a> &quot;<strong>CHRONOLOGIA</strong>&quot; which used code from the <a href="http://www.simile-widgets.org/">MIT SIMILE project</a>. <a href="http://dhart.co/index_timeline.php">CHRONOLOGIA</a> may not display correctly on all devices as the code is from 2009, but it has many features which are not available in the vis.js version.</p>
 <p><a href="http://dhart.co/index_timeline.php"><img src="chronologia.jpg" width="201" height="151" alt="example2" style="border:1px solid black; width:201; height:151;"></a><br>
-  <br>
-There is also  <a href="http://dhart.co">dhart.co</a> which I use to  track  my projects and host my <a href="http://dhart.co/wordpress/">blog</a>.</p>
-<p>&copy; 2015 damionpaulhart</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 <script>
   
   // jQuery
@@ -213,5 +367,9 @@ function handleData(data)
   
 
 </script>
-</body>
-</html>
+    </div><!-- /container -->
+</div> <!-- /wrapper -->
+<?php
+	require_once(dirname(__FILE__) . '/../../footer.php');
+	// get_header();
+?>
