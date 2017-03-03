@@ -3,7 +3,14 @@
 
 <a href="http://visjs.org/">vis.js</a>, PHP, JSON based stand-alone files (no database).
 
-To use, load on PHP server, browse to index.html then explore links to get to the subfolders containing the pages with timelines.
+<h2>Use</h2>
+<ul>
+<li>Load on PHP server, </li>
+<li>Browse to index.html</li>
+<li>Follow links on index.html to get to the subfolders containing the pages with timelines.</li>
+<li>Update and edit timelines using the buttons on each individual timeline page</li>
+</ul>
+To create new timelines, copy one of the subfolders and paste with new name. Edit the new files following the vis.js documentation.
 
 <h2>Flow</h2>
 <ul>
